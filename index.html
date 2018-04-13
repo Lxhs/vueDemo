@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="./css/01.less">-->
+    <link rel="stylesheet" href="./css/01.css">
+</head>
+<body>
+    <div id="app">
+         <!--头部-->
+        <div class="header">
+            <span>购物车</span>
+        </div>
+
+        <!--安全提示-->
+        <div class="safe_tip">
+            <span>您正在安全购物环境中，请放心购物</span>
+        </div>
+
+        <!--中间部分-->
+        <main class="shopCart_list">
+            <section v-for="(shop,index) in shopListArr">
+                <div class="shopCart_list_title">
+                    <span class="cart_logo"></span>
+                    <span class="cart_title">京东自营</span>
+                    <span class="cart_sale">您享受满100元免运费服务</span>
+                </div>
+                <div class="shopCart_list_con">
+                    <div class="list_con_left">
+                        <a href="javascript:;">
+                            <input type="checkbox" :checked="shop.checked" @click="singerShopSelected(shop)">
+                        </a>
+                    </div>
+                    <div class="list_con_right">
+                        <!--物品图片-->
+                        <div class="shop_img" >
+                            <img :src="shop.shopImage" width="100" height="100" alt="">
+                        </div>
+                        <!--物品介绍-->
+                        <div class="shop_con">
+                            <a href="" v-text="shop.shopName"></a>
+                        </div>
+                        <!--物品价格-->
+                        <div class="shop_price" >
+                            <div class="singer">{{shop.shopPrice | monenyFormat(shop.shopPrice)}}</div>
+                            <div class="total">{{shop.shopPrice * shop.shopNumber | monenyFormat(shop.shopPrice * shop.shopNumber)}}</div>
+                        </div>
+                        <!--物品数量调整及删除-->
+                        <div class="shop_deal">
+                            <!--数量-->
+                            <div class="shop_deal_left">
+                                <span @click="getAddNumber(shop,false)">-</span>
+                                <input type="tel" v-model="shop.shopNumber">
+                                <span @click="getAddNumber(shop,true)">+</span>
+                            </div>
+                            <!--删除-->
+                            <div class="shop_deal_right">
+                                <a  data-toggle="modal" data-target="#myModal" @click="clickTrash(shop)">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </section>
+
+        </main>
+
+        <!--底部通栏-->
+        <div class="tab_bar">
+            <div class="tab_bar_left">
+                <a href="javascript:;"><input type="checkbox" @click="selectAll(isSelectedAll)" :checked="isSelectedAll"></a>
+                <span>全选</span>
+                <div class="select_all">
+                    合计: <span class="total_price" >{{totalPrice | monenyFormat(totalPrice)}}</span>
+                </div>
+            </div>
+            <div class="tab_bar_right">
+                <button class="btn btn-info" >去结算</button>
+            </div>
+        </div>
+
+        <!--弹出删除面板-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close"  data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>您确认删除这个商品吗？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" >取消</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" @click="deletShop">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+    <script src="./lib/jquery.min.js"></script>
+    <script src="./lib/vue.min.js"></script>
+    <script src="./lib/vue-resource.js"></script>
+    <script src="./lib/bootstrap.min.js"></script>
+    <script src="./js/shopCart.js"></script>
+</html>
